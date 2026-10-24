@@ -1,0 +1,96 @@
+/**
+ * Utility functions for API error handling
+ */
+
+/**
+ * Formats an error object from the API
+ * @param {Error} error - The error from the API call
+ * @returns {Object} Formatted error object
+ */
+export const formatApiError = (error) => {
+  // Log extended information for debugging
+  console.group('API Error Details');
+  console.log('Error object:', error);
+  console.log('Request URL:', error.config?.url);
+  console.log('Request Method:', error.config?.method);
+  console.log('Request Data:', error.config?.data);
+  console.log('Response Status:', error.response?.status);
+  console.log('Response Data:', error.response?.data);
+  console.groupEnd();
+
+  // If we have a response with data, return that
+  if (error.response?.data) {
+    const errorData = error.response.data;
+    const msg = 
+      errorData.message || 
+      (Array.isArray(errorData.errors) && errorData.errors[0]?.msg) || 
+      (typeof errorData === 'string' ? errorData : 'An error occurred');
+
+    return {
+      message: msg,
+      errors: errorData.errors || null,
+      status: error.response.status,
+      statusText: error.response.statusText,
+      url: error.config?.url,
+      method: error.config?.method,
+      response: error.response,
+      data: errorData
+    };
+  }
+  
+  // Handle network errors
+  if (error.request) {
+    return {
+      message: 'Network error. Please check your connection.',
+      status: 0,
+      url: error.config?.url,
+      method: error.config?.method,
+      response: error.response,
+      data: null
+    };
+  }
+  
+  // Handle other errors
+  return {
+    message: error.message || 'An unknown error occurred',
+    status: 500,
+    url: error.config?.url,
+    method: error.config?.method,
+    response: error.response,
+    data: null
+  };
+};
+
+/**
+ * Shows an error notification (can be connected to a notification system)
+ * @param {Error} error - The error from the API call
+ */
+export const showErrorNotification = (error) => {
+  const formattedError = formatApiError(error);
+  console.error('API Error:', formattedError);
+  
+  // This can be connected to a toast notification system
+  // For example: toast.error(formattedError.message);
+};
+
+/**
+ * Handle API error with standard formatting and optional notification
+ * @param {Error} error - The error from the API call
+ * @param {boolean} showNotification - Whether to show a notification
+ * @returns {Object} Formatted error
+ */
+export const handleApiError = (error, showNotification = true) => {
+  const formattedError = formatApiError(error);
+  
+  if (showNotification) {
+    showErrorNotification(error);
+  }
+  
+  return formattedError;
+};
+
+export default {
+  formatApiError,
+  showErrorNotification,
+  handleApiError
+};

@@ -1,0 +1,58 @@
+import { useState, useEffect, useCallback } from 'react';
+import { OrganizationService } from '../services/organization.service';
+
+export const useOrganizationSearch = () => {
+    const [organizations, setOrganizations] = useState([]);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
+
+    const searchOrganizations = useCallback(async (searchQuery = '', options = {}) => {
+        setLoading(true);
+        setError(null);
+
+        try {
+            const hasQuery = searchQuery && typeof searchQuery === 'string' && searchQuery.trim().length > 0;
+            const response = hasQuery
+                ? await OrganizationService.searchOrganizations(searchQuery.trim(), options)
+                : await OrganizationService.getAllOrganizations(options);
+
+            // Standardize response format - handle various API response structures
+            let orgsData = [];
+
+            if (response.data?.data && Array.isArray(response.data.data)) {
+                // Nested success response: { data: { data: [...] } }
+                orgsData = response.data.data;
+            } else if (response.data && Array.isArray(response.data)) {
+                // Direct data array: { data: [...] }
+                orgsData = response.data;
+            } else if (Array.isArray(response)) {
+                // Direct array response: [...]
+                orgsData = response;
+            }
+
+            setOrganizations(orgsData);
+            return orgsData;
+        } catch (err) {
+            console.error(err);
+            setError(err.message || err.response?.data?.message || 'Failed to search organizations');
+            setOrganizations([]);
+            return [];
+        } finally {
+            setLoading(false);
+        }
+    }, []);
+
+    const clearSearch = useCallback(() => {
+        setOrganizations([]);
+        setError(null);
+        setLoading(false);
+    }, []);
+
+    return {
+        organizations,
+        loading,
+        error,
+        searchOrganizations,
+        clearSearch
+    };
+};

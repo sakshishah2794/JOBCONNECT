@@ -1,0 +1,181 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Reset and basic styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  background-color: #fdf8ee;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+body {
+  margin: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f2f2f2;
+}
+
+.container {
+  padding: 20px;
+}
+
+/* Header/Navbar */
+.navbar {
+  background-color: #000000;
+  color: #fff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 20px;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo img {
+  height: 40px;
+}
+
+.span{
+  font-weight: bold;
+  font-size: 20px;
+}
+
+.navbar nav a {
+  color: white;
+  margin-left: 20px;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.navbar nav a:hover {
+  text-decoration: underline;
+}
+
+/* Form container */
+.form-box {
+  background-color: white;
+  max-width: 450px;
+  margin: 40px auto;
+  padding: 30px;
+  border-radius: 20px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+}
+
+.form-box h2 {
+  text-align: center;
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.form-box p {
+  text-align: center;
+  margin-bottom: 25px;
+}
+
+.form-box a {
+  color: #0044cc;
+  text-decoration: none;
+}
+
+.form-box a:hover {
+  text-decoration: underline;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: bold;
+}
+
+.input-box {
+  display: flex;
+  align-items: center;
+  background: #f9f9f9;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  padding: 10px;
+}
+
+.input-box .icon {
+  margin-right: 10px;
+  font-size: 18px;
+}
+
+.input-box input {
+  border: none;
+  outline: none;
+  width: 100%;
+  font-size: 14px;
+  background: transparent;
+}
+
+/* Role buttons */
+.toggle-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.role-btn {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #333;
+  border-radius: 8px;
+  background-color: #fff;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.role-btn:hover {
+  background-color: #eee;
+}
+
+/* Remember and forgot password section */
+.form-options {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 14px;
+  margin-bottom: 15px;
+}
+
+.form-options input {
+  margin-right: 5px;
+}
+
+/* Submit button */
+.submit-btn {
+  background-color: #000;
+  color: white;
+  border: none;
+  padding: 12px;
+  border-radius: 10px;
+  width: 100%;
+  font-weight: bold;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.submit-btn:hover {
+  background-color: #222;
+}
